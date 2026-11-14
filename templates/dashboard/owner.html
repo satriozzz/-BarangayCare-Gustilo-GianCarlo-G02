@@ -1,0 +1,11 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Owner Dashboard | MotoServe</title><link rel="stylesheet" href="{% static 'css/style.css' %}"></head>
+<body>
+    <header class="topbar"><div><strong>MotoServe</strong><span>Owner workspace</span></div><nav><a href="{% url 'profile' %}">My Profile</a><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit">Log out</button></form></nav></header>
+    <main><p class="eyebrow">OWNER</p><h1>System overview</h1><p>Welcome, {{ request.user.first_name|default:request.user.username }}. Manage your account and review the main MotoServe areas.</p>
+        <section class="cards"><article class="card"><h2>System accounts</h2><p>Owner, staff, and mechanic accounts support the MotoServe team.</p><a href="{% url 'profile' %}">View your account</a></article><article class="card"><h2>Customer management</h2><p>Customer information will be managed here in a later project phase.</p><span class="status">Planned section</span></article><article class="card"><h2>Service operations</h2><p>Service requests and job orders will be managed here in a later phase.</p><span class="status">Planned section</span></article></section>
+    </main>
+</body>
+</html>

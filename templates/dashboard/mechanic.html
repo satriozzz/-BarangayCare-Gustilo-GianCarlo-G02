@@ -1,0 +1,11 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Mechanic Dashboard | MotoServe</title><link rel="stylesheet" href="{% static 'css/style.css' %}"></head>
+<body>
+    <header class="topbar"><div><strong>MotoServe</strong><span>Mechanic workspace</span></div><nav><a href="{% url 'profile' %}">My Profile</a><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit">Log out</button></form></nav></header>
+    <main><p class="eyebrow">MECHANIC</p><h1>Workshop dashboard</h1><p>Welcome, {{ request.user.first_name|default:request.user.username }}. Your work sections are listed below.</p>
+        <section class="cards"><article class="card"><h2>Assigned job orders</h2><p>Job orders assigned to you will appear in this section.</p><span class="status">Planned section</span></article><article class="card"><h2>Service updates</h2><p>Record progress and updates for active work here.</p><span class="status">Planned section</span></article><article class="card"><h2>My account</h2><p>Keep your contact information up to date.</p><a href="{% url 'profile_edit' %}">Edit profile</a></article></section>
+    </main>
+</body>
+</html>

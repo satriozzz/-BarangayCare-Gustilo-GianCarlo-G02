@@ -1,0 +1,11 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Staff Dashboard | MotoServe</title><link rel="stylesheet" href="{% static 'css/style.css' %}"></head>
+<body>
+    <header class="topbar"><div><strong>MotoServe</strong><span>Staff workspace</span></div><nav><a href="{% url 'profile' %}">My Profile</a><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit">Log out</button></form></nav></header>
+    <main><p class="eyebrow">STAFF</p><h1>Staff dashboard</h1><p>Welcome, {{ request.user.first_name|default:request.user.username }}. Use these sections to organize front desk work.</p>
+        <section class="cards"><article class="card"><h2>Customer information</h2><p>Customer records and contact details will appear in this section.</p><span class="status">Planned section</span></article><article class="card"><h2>Service requests</h2><p>Review and record customer service requests here.</p><span class="status">Planned section</span></article><article class="card"><h2>Job orders</h2><p>Prepare and track job orders for the workshop team.</p><span class="status">Planned section</span></article></section>
+    </main>
+</body>
+</html>

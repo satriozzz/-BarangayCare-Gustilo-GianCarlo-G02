@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Profile | MotoServe</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>My Profile</h1>
+
+    <p><strong>Username:</strong> {{ request.user.username }}</p>
+    <p><strong>First Name:</strong> {{ request.user.first_name }}</p>
+    <p><strong>Last Name:</strong> {{ request.user.last_name }}</p>
+    <p><strong>Email:</strong> {{ request.user.email }}</p>
+    <p><strong>Contact Number:</strong> {{ request.user.contact_number|default:"Not provided" }}</p>
+    <p><strong>Role:</strong> {{ request.user.get_role_display }}</p>
+
+    <a href="{% url 'profile_edit' %}">
+        <button type="button">Edit Profile</button>
+    </a>
+
+    <br><br>
+    {% if request.user.role == 'OWNER' %}
+        <a href="{% url 'owner_dashboard' %}">Back to Dashboard</a>
+    {% elif request.user.role == 'STAFF' %}
+        <a href="{% url 'staff_dashboard' %}">Back to Dashboard</a>
+    {% else %}
+        <a href="{% url 'mechanic_dashboard' %}">Back to Dashboard</a>
+    {% endif %}
+</body>
+</html>
