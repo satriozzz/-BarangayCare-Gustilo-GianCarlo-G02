@@ -1,11 +1,11 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.db.models import Q
 from .models import CustomUser
 
 
 class CustomUserCreationForm(UserCreationForm):
-
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(required=True, label='Email address')
 
     role = forms.ChoiceField(
         choices=[
@@ -18,7 +18,6 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = [
-            'username',
             'email',
             'first_name',
             'last_name',
@@ -28,28 +27,28 @@ class CustomUserCreationForm(UserCreationForm):
 
     def clean_email(self):
         email = self.cleaned_data['email'].strip().lower()
-
-        if CustomUser.objects.filter(email__iexact=email).exists():
-            raise forms.ValidationError(
-                'This email address is already registered.'
-            )
-
+        if CustomUser.objects.filter(Q(email__iexact=email) | Q(username__iexact=email)).exists():
+            raise forms.ValidationError('This email address is already registered.')
         return email
 
-    def clean_username(self):
-        username = self.cleaned_data['username'].strip()
-        if CustomUser.objects.filter(username__iexact=username).exists():
-            raise forms.ValidationError('This username is already registered.')
-        return username
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data.get('email'):
+            self.instance.username = cleaned_data['email']
+        return cleaned_data
 
-    
-
-    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        user.username = user.email
+        if commit:
+            user.save()
+            self.save_m2m()
+        return user
 
 
 class ProfileUpdateForm(forms.ModelForm):
-
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(required=True, label='Email address')
 
     class Meta:
         model = CustomUser
@@ -62,12 +61,24 @@ class ProfileUpdateForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data['email'].strip().lower()
-
         if CustomUser.objects.filter(
-            email__iexact=email
+            Q(email__iexact=email) | Q(username__iexact=email)
         ).exclude(pk=self.instance.pk).exists():
-            raise forms.ValidationError(
-                'This email is already being used.'
-            )
-
+            raise forms.ValidationError('This email is already being used.')
         return email
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        user.username = user.email
+        if commit:
+            user.save()
+            self.save_m2m()
+        return user
+
+
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.EmailField(
+        label='Username',
+        widget=forms.EmailInput(attrs={'placeholder': 'Enter your email'})
+    )

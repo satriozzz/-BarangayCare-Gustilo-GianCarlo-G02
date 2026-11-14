@@ -4,7 +4,7 @@ from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .forms import CustomUserCreationForm, ProfileUpdateForm
+from .forms import CustomUserCreationForm, ProfileUpdateForm, CustomAuthenticationForm
 
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
@@ -20,6 +20,7 @@ class SignUpView(CreateView):
 
 class CustomLoginView(LoginView):
     template_name = 'accounts/login.html'
+    authentication_form = CustomAuthenticationForm
 
     def get_success_url(self):
         user = self.request.user
