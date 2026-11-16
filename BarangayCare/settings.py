@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'MotoServe.urls'
+ROOT_URLCONF = 'BarangayCare.urls'
 
 TEMPLATES = [
     {
@@ -73,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'MotoServe.wsgi.application'
+WSGI_APPLICATION = 'BarangayCare.wsgi.application'
 
 
 DATABASE_URL = os.getenv('DATABASE_URL')

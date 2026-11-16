@@ -17,7 +17,7 @@ class CustomUserAdmin(UserAdmin):
     )
 
     fieldsets = UserAdmin.fieldsets + (
-        ('MotoServe Profile', {
+        ('BarangayCare Profile', {
             'fields': ('role', 'contact_number')
         }),
     )

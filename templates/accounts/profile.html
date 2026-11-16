@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Profile | MotoServe</title>
+    <title>My Profile | BarangayCare</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -20,12 +20,11 @@
     </a>
 
     <br><br>
-    {% if request.user.role == 'OWNER' %}
-        <a href="{% url 'owner_dashboard' %}">Back to Dashboard</a>
-    {% elif request.user.role == 'STAFF' %}
-        <a href="{% url 'staff_dashboard' %}">Back to Dashboard</a>
-    {% else %}
-        <a href="{% url 'mechanic_dashboard' %}">Back to Dashboard</a>
+
+    {% if request.user.role == 'ADMIN' %}
+        <a href="{% url 'admin_dashboard' %}">Back to Dashboard</a>
+    {% elif request.user.role == 'HEALTH_WORKER' %}
+        <a href="{% url 'health_worker_dashboard' %}">Back to Dashboard</a>
     {% endif %}
 </body>
 </html>
