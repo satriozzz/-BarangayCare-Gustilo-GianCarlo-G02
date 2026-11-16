@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Details | BarangayCare</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="topbar">
+        <div>
+            <strong>BarangayCare</strong>
+            <span>Patient Management</span>
+        </div>
+        <nav>
+            <a href="{% url 'patient_list' %}">Patient Records</a>
+            <a href="{% url 'profile' %}">My Profile</a>
+        </nav>
+    </header>
+
+    <main>
+        <p class="eyebrow">PATIENT MANAGEMENT</p>
+        <h1>Patient Details</h1>
+        <p>View the patient's registered information.</p>
+
+        <section class="card">
+            <h2>{{ patient.last_name }}, {{ patient.first_name }} {{ patient.middle_name }}</h2>
+
+            <p><strong>Birth Date:</strong> {{ patient.birth_date|date:"F d, Y" }}</p>
+            <p><strong>Sex:</strong> {{ patient.get_sex_display }}</p>
+            <p><strong>Address:</strong> {{ patient.address }}</p>
+            <p><strong>Contact Number:</strong> {{ patient.contact_number|default:"Not provided" }}</p>
+            <p><strong>Registered:</strong> {{ patient.created_at|date:"M d, Y h:i A" }}</p>
+
+            <a href="{% url 'patient_update' patient.pk %}" class="button">Edit Patient</a>
+            <a href="{% url 'patient_delete' patient.pk %}" class="button">Delete Patient</a>
+            <a href="{% url 'patient_list' %}">Back to Records</a>
+        </section>
+    </main>
+</body>
+</html>

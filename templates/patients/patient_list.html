@@ -1,4 +1,3 @@
-```html
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -9,6 +8,8 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+
+
     <header class="topbar">
         <div>
             <strong>BarangayCare</strong>
@@ -32,6 +33,20 @@
                 + Register Patient
             </a>
         </section>
+
+        <form method="GET" action="{% url 'patient_list' %}" class="search-form">
+            <input
+                type="text"
+                name="search"
+                placeholder="Search by patient name..."
+                value="{{ search_query }}"
+            >
+        <button type="submit">Search</button>
+
+        {% if search_query %}
+            <a href="{% url 'patient_list' %}">Clear</a>
+        {% endif %}
+        </form>
 
         {% if messages %}
             {% for message in messages %}
@@ -70,8 +85,13 @@
                     </table>
                 </div>
             {% else %}
-                <p>No patient records found yet.</p>
-                <p>Register your first patient to get started.</p>
+                {% if search_query %}
+                    <p>No matching patients found for "{{ search_query }}".</p>
+                    <p>Try another name or clear your search.</p>
+                {% else %}
+                    <p>No patient records found yet.</p>
+                    <p>Register your first patient to get started.</p>
+                {% endif %}
             {% endif %}
         </section>
     </main>
