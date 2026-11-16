@@ -8,11 +8,9 @@ class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True, label='Email address')
 
     role = forms.ChoiceField(
-        choices=[
-            ('STAFF', 'Staff'),
-            ('MECHANIC', 'Mechanic'),
-        ],
-        label='Register as'
+    choices=[('HEALTH_WORKER', 'Health Worker')],
+    initial='HEALTH_WORKER',
+    widget=forms.HiddenInput()
     )
 
     class Meta:
