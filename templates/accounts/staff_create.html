@@ -1,0 +1,50 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Staff Account | BarangayCare</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="topbar">
+        <div>
+            <strong>BarangayCare</strong>
+            <span>Staff Management</span>
+        </div>
+        <nav>
+            <a href="{% url 'admin_dashboard' %}">Dashboard</a>
+            <a href="{% url 'profile' %}">My Profile</a>
+        </nav>
+    </header>
+
+    <main>
+        <p class="eyebrow">ADMINISTRATION</p>
+        <h1>Create Health Worker Account</h1>
+        <p>Register a staff member who can access the health center system.</p>
+
+        <section class="card">
+            <form method="post">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    {{ form.non_field_errors }}
+                {% endif %}
+
+                {% for field in form %}
+                    <p>
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {{ field.errors }}
+                    </p>
+                {% endfor %}
+
+                <button type="submit">Create Staff Account</button>
+                <a href="{% url 'admin_dashboard' %}">Cancel</a>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

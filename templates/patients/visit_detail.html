@@ -1,0 +1,31 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visit Details | BarangayCare</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <h1>Patient Visit Details</h1>
+
+    <p><strong>Patient:</strong> {{ visit.patient }}</p>
+    <p><strong>Visit Date:</strong> {{ visit.visit_date|date:"F d, Y" }}</p>
+    <p><strong>Purpose:</strong> {{ visit.get_purpose_display }}</p>
+    <p><strong>Notes:</strong> {{ visit.notes|default:"No notes provided." }}</p>
+    <p><strong>Recorded By:</strong> {{ visit.created_by }}</p>
+    <p><strong>Date Recorded:</strong> {{ visit.created_at|date:"F d, Y - h:i A" }}</p>
+
+    <hr>
+
+    <a href="{% url 'visit_update' visit.pk %}">Edit Visit</a>
+    |
+    <a href="{% url 'visit_delete' visit.pk %}">Delete Visit</a>
+    |
+    <a href="{% url 'visit_list' %}">Back to Visits</a>
+
+</body>
+</html>

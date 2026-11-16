@@ -4,6 +4,7 @@ from .views import (
     CustomLogoutView,
     profile_view,
     profile_edit,
+    staff_create,
 )
 
 urlpatterns = [
@@ -11,4 +12,5 @@ urlpatterns = [
     path('logout/', CustomLogoutView.as_view(), name='logout'),
     path('profile/', profile_view, name='profile'),
     path('profile/edit/', profile_edit, name='profile_edit'),
+    path('staff/create/', staff_create, name='staff_create'),
 ]

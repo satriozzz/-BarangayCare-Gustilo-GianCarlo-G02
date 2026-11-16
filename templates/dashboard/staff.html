@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -31,13 +32,17 @@
             <article class="card">
                 <h2>Patient Records</h2>
                 <p>Register, search, and update patient information.</p>
-                <span class="status">Coming next</span>
+                <a href="{% url 'patient_list' %}" class="status">
+                    Open Patient Records →
+                </a>
             </article>
 
             <article class="card">
                 <h2>Patient Visits</h2>
-                <p>Record patient visits and their purposes.</p>
-                <span class="status">Coming next</span>
+                <p>Record, view, and manage patient visit information.</p>
+                <a href="{% url 'visit_list' %}" class="status">
+                    Manage Patient Visits →
+                </a>
             </article>
 
             <article class="card">
