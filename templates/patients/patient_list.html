@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Records | BarangayCare</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+
+    <header class="topbar">
+        <div>
+            <strong>BarangayCare</strong>
+            <span>Patient Management</span>
+        </div>
+        <nav>
+            <a href="{% url 'health_worker_dashboard' %}">Dashboard</a>
+            <a href="{% url 'profile' %}">My Profile</a>
+        </nav>
+    </header>
+
+    <main>
+        <p class="eyebrow">HEALTH CENTER RECORDS</p>
+
+        <section class="page-heading">
+            <div>
+                <h1>Patient Records</h1>
+                <p>Register and manage patient information.</p>
+            </div>
+            <a href="{% url 'patient_create' %}" class="button">
+                + Register Patient
+            </a>
+        </section>
+
+        <form method="GET" action="{% url 'patient_list' %}" class="search-form">
+            <input
+                type="text"
+                name="search"
+                placeholder="Search by patient name..."
+                value="{{ search_query }}"
+            >
+        <button type="submit">Search</button>
+
+        {% if search_query %}
+            <a href="{% url 'patient_list' %}">Clear</a>
+        {% endif %}
+        </form>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <section class="card">
+            {% if patients %}
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Sex</th>
+                                <th>Birth Date</th>
+                                <th>Contact Number</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for patient in patients %}
+                                <tr>
+                                    <td>{{ patient.last_name }}, {{ patient.first_name }} {{ patient.middle_name }}</td>
+                                    <td>{{ patient.get_sex_display }}</td>
+                                    <td>{{ patient.birth_date|date:"M d, Y" }}</td>
+                                    <td>{{ patient.contact_number|default:"—" }}</td>
+                                    <td>
+                                        <a href="{% url 'patient_detail' patient.pk %}">View</a>
+                                        <a href="{% url 'patient_update' patient.pk %}">Edit</a>
+                                        <a href="{% url 'patient_delete' patient.pk %}">Delete</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                {% if search_query %}
+                    <p>No matching patients found for "{{ search_query }}".</p>
+                    <p>Try another name or clear your search.</p>
+                {% else %}
+                    <p>No patient records found yet.</p>
+                    <p>Register your first patient to get started.</p>
+                {% endif %}
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>
+```

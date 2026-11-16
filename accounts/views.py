@@ -3,7 +3,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .forms import ProfileUpdateForm, CustomAuthenticationForm
+from .forms import ProfileUpdateForm, CustomAuthenticationForm, CustomUserCreationForm
+from django.core.exceptions import PermissionDenied
 
 
 class CustomLoginView(LoginView):
@@ -50,3 +51,22 @@ def profile_edit(request):
         'accounts/profile_edit.html',
         {'form': form}
     )
+
+@login_required
+def staff_create(request):
+    if request.user.role != 'ADMIN':
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Health Worker account created successfully.')
+            return redirect('admin_dashboard')
+    else:
+        form = CustomUserCreationForm()
+
+    return render(request, 'accounts/staff_create.html', {
+        'form': form
+    })

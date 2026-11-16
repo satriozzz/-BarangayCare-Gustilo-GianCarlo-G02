@@ -10,7 +10,7 @@ class CustomUserCreationForm(UserCreationForm):
     role = forms.ChoiceField(
     choices=[('HEALTH_WORKER', 'Health Worker')],
     initial='HEALTH_WORKER',
-    widget=forms.HiddenInput()
+    widget=forms.Select()
     )
 
     class Meta:
