@@ -1,0 +1,28 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Patient Visit | BarangayCare</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <h1>Delete Patient Visit</h1>
+
+    <p>
+        Are you sure you want to delete the visit record for
+        <strong>{{ visit.patient }}</strong>
+        dated <strong>{{ visit.visit_date|date:"F d, Y" }}</strong>?
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Yes, Delete Visit</button>
+        <a href="{% url 'visit_detail' visit.pk %}">Cancel</a>
+    </form>
+
+</body>
+</html>

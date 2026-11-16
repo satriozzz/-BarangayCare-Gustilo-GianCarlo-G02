@@ -1,0 +1,99 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Visits | BarangayCare</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <header class="topbar">
+        <div>
+            <strong>BarangayCare</strong>
+            <span>Patient visit management</span>
+        </div>
+
+        <nav>
+            <a href="{% url 'profile' %}">My Profile</a>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Log out</button>
+            </form>
+        </nav>
+    </header>
+
+    <main>
+        <p class="eyebrow">HEALTH CENTER RECORDS</p>
+        <h1>Patient Visits</h1>
+        <p>View and manage recorded patient visits.</p>
+
+        <section class="cards">
+            <article class="card">
+                <h2>Visit Records</h2>
+                <p>Record and manage patient consultations, follow-ups, vaccinations, and other visits.</p>
+                <a href="{% url 'visit_create' %}" class="status">
+                    + Record Patient Visit →
+                </a>
+            </article>
+        </section>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <h2>Recorded Visits</h2>
+
+        {% if visits %}
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Visit Date</th>
+                            <th>Purpose</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for visit in visits %}
+                            <tr>
+                                <td>{{ visit.patient }}</td>
+                                <td>{{ visit.visit_date|date:"M d, Y" }}</td>
+                                <td>{{ visit.get_purpose_display }}</td>
+                                <td>
+                                    <a href="{% url 'visit_detail' visit.pk %}">View</a>
+                                    |
+                                    <a href="{% url 'visit_update' visit.pk %}">Edit</a>
+                                    |
+                                    <a href="{% url 'visit_delete' visit.pk %}">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <article class="card">
+                <h2>No visits yet</h2>
+                <p>No patient visits have been recorded yet.</p>
+            </article>
+        {% endif %}
+
+        <br>
+
+        {% if user.role == 'ADMIN' %}
+            <a href="{% url 'admin_dashboard' %}">← Back to Dashboard</a>
+        {% else %}
+            <a href="{% url 'health_worker_dashboard' %}">← Back to Dashboard</a>
+        {% endif %}
+
+    </main>
+
+</body>
+</html>

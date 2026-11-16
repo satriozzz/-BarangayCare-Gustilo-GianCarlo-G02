@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -28,6 +29,7 @@
         <p>Welcome, {{ request.user.first_name|default:request.user.username }}. Manage health center accounts and monitor BarangayCare records.</p>
 
         <section class="cards">
+
             <article class="card">
                 <h2>Staff Accounts</h2>
                 <p>Create and manage health worker accounts.</p>
@@ -35,7 +37,6 @@
                     Create Staff Account →
                 </a>
             </article>
-
 
             <article class="card">
                 <h2>Patient Records</h2>
@@ -46,8 +47,16 @@
             </article>
 
             <article class="card">
+                <h2>Patient Visits</h2>
+                <p>View, record, update, and manage patient visit records.</p>
+                <a href="{% url 'visit_list' %}" class="status">
+                    Manage Patient Visits →
+                </a>
+            </article>
+
+            <article class="card">
                 <h2>Reports</h2>
-                <p>Review patient visits and medicine inventory reports.</p>
+                <p>Review patient visit and medicine inventory reports.</p>
                 <span class="status">Coming next</span>
             </article>
 

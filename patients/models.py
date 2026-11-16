@@ -33,3 +33,38 @@ class Patient(models.Model):
 
     def __str__(self):
         return f"{self.last_name}, {self.first_name}"
+
+class PatientVisit(models.Model):
+    PURPOSE_CHOICES = [
+        ('CONSULTATION', 'Consultation'),
+        ('FOLLOW_UP', 'Follow-up'),
+        ('VACCINATION', 'Vaccination'),
+        ('MEDICINE', 'Medicine Request'),
+        ('OTHER', 'Other'),
+    ]
+
+    patient = models.ForeignKey(
+        Patient,
+        on_delete=models.CASCADE,
+        related_name='visits'
+    )
+    visit_date = models.DateField()
+    purpose = models.CharField(
+        max_length=20,
+        choices=PURPOSE_CHOICES
+    )
+    notes = models.TextField(blank=True)
+
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.PROTECT,
+        related_name='recorded_visits'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-visit_date', '-created_at']
+
+    def __str__(self):
+        return f"{self.patient} - {self.visit_date}"
