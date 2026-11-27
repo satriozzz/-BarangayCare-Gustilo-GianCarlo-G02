@@ -1,0 +1,26 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Error | BarangayCare</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="topbar">
+        <div>
+            <strong>BarangayCare</strong>
+            <span>Health Center Management System</span>
+        </div>
+    </header>
+
+    <main>
+        <p class="eyebrow">ERROR 500</p>
+        <h1>Something went wrong</h1>
+        <p>We're sorry, but the server encountered an unexpected error. Please try again later.</p>
+        <a href="{% url 'login' %}" class="status">Return to Login</a>
+    </main>
+</body>
+</html>
