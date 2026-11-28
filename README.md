@@ -26,7 +26,6 @@ BarangayCare is a web-based system developed using Django and PostgreSQL to help
 - Supabase
 - HTML
 - CSS
-- JavaScript
 - Git and GitHub
 
 ## INSTALLATION AND SETUP

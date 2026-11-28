@@ -153,3 +153,44 @@ class PatientVisitTests(TestCase):
         )
 
         self.assertEqual(response.status_code, 200)
+
+    def test_invalid_visit_id_returns_404(self):
+        self.client.force_login(self.worker)
+
+        response = self.client.get(
+            reverse('visit_detail', args=[99999])
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_update_visit(self):
+        self.client.force_login(self.worker)
+
+        response = self.client.post(
+            reverse('visit_update', args=[self.visit.id]),
+            {
+                'patient': self.patient.id,
+                'visit_date': date.today(),
+                'purpose': 'FOLLOW_UP',
+                'notes': 'Updated consultation'
+            }
+        )
+
+        self.visit.refresh_from_db()
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(self.visit.purpose, 'FOLLOW_UP')
+        self.assertEqual(self.visit.notes, 'Updated consultation')
+
+        # TEST 11: Successfully delete a patient visit
+    def test_delete_visit(self):
+        self.client.force_login(self.worker)
+
+        response = self.client.post(
+            reverse('visit_delete', args=[self.visit.id])
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(
+            PatientVisit.objects.filter(id=self.visit.id).exists()
+        )

@@ -133,7 +133,7 @@ def patient_delete(request, pk):
 
 @login_required
 def visit_list(request):
-    visits = get_accessible_visits(request.user)
+    visits = get_accessible_visits(request.user).select_related('patient')
 
     return render(request, 'patients/visit_list.html', {
         'visits': visits
@@ -166,14 +166,10 @@ def visit_create(request):
 @login_required
 def visit_detail(request, pk):
     visit = get_object_or_404(
-        get_accessible_visits(request.user),
+        get_accessible_visits(request.user).select_related('patient', 'created_by'),
         pk=pk
     )
-
-    return render(request, 'patients/visit_detail.html', {
-        'visit': visit
-    })
-
+    return render(request, 'patients/visit_detail.html', {'visit': visit})
 
 @login_required
 def visit_update(request, pk):
@@ -208,7 +204,7 @@ def visit_update(request, pk):
 @login_required
 def visit_delete(request, pk):
     visit = get_object_or_404(
-        get_accessible_visits(request.user),
+        get_accessible_visits(request.user).select_related('patient'),
         pk=pk
     )
 
