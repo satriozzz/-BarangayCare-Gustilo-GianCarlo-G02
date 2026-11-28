@@ -1,9 +1,8 @@
-from django import forms
-from datetime import date
-from .models import Patient
-from .models import PatientVisit
 from datetime import date
 
+from django import forms
+
+from .models import Patient, PatientVisit
 
 class PatientForm(forms.ModelForm):
     class Meta:
